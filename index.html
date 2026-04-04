@@ -436,6 +436,7 @@
     @media (max-width: 920px) {
       .nav {
         position: fixed; top: calc(var(--header-h) + 1px); left: 0; right: 0;
+        z-index: 199;
         background: rgba(7,7,7,0.98); border-bottom: 1px solid var(--line);
         padding: 18px 20px 24px; display: none;
         flex-direction: column; align-items: start;
@@ -653,7 +654,7 @@
         </div>
         <div class="footer-links">
           <h5>Contact</h5>
-          <a href="mailto:hello@thespaceboy.com">hello&#64;thespaceboy.com</a>
+          <a href="/cdn-cgi/l/email-protection#d4bcb1b8b8bb94a0bcb1a7a4b5b7b1b6bbadfab7bbb9">hello&#64;thespaceboy.com</a>
           <a href="https://instagram.com/thespaceboy" target="_blank" rel="noopener">Instagram</a>
           <a href="https://tiktok.com/@thespaceboy" target="_blank" rel="noopener">TikTok</a>
           <a href="https://x.com/thespaceboy" target="_blank" rel="noopener">X (Twitter)</a>
@@ -666,7 +667,7 @@
     </div>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     /* ─────────────────────────────────────────
        SUPABASE CONFIG
     ───────────────────────────────────────── */
@@ -862,6 +863,14 @@
           setTimeout(() => { btn.textContent = orig; }, 1200);
         });
       });
+      // Click anywhere on card (except buttons) → go to product page
+      scroller.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('click', e => {
+          if (e.target.closest('button')) return;
+          const id = card.dataset.id;
+          if (id) window.location.href = `product.html?id=${id}`;
+        });
+      });
     }
 
     /* ─────────────────────────────────────────
@@ -910,12 +919,3 @@
         console.error('Failed to load products:', err);
         // Fall back to placeholders on error
         Object.entries(CATEGORY_MAP).forEach(([, { scrollerId, label }]) => {
-          document.getElementById(scrollerId).innerHTML = buildPlaceholder(label);
-        });
-      }
-    }
-
-    loadProducts();
-  </script>
-</body>
-</html>
